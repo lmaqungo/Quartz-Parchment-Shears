@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+        write a function to get computer choice: function getComputerChoice()
+        write a function to get human choice: function getHumanChoice()
+        declare two global variables to track score: humanScore, computerScore
+        write a function to create a round, processes the choice of human and computer, display a string to indicate the winner, then increment the winners score variable: playRound(humanChoice, computerChoice) => process choices, increment winner score, display winner
+        write a function that allows the game to be played 5 times. The playGame and score variables should be declared within here
+        */
+
+        function getComputerChoice(){
+            let choiceCounter = Math.floor(Math.random() * 3) + 1;
+            switch(choiceCounter){
+                case 1:
+                    return "quartz";
+                    break;
+                case 2:
+                    return "parchment";
+                    break;
+                case 3:     
+                    return "shears";
+                    break;
+            }
+        }
+
+        function getPlayerChoice(){
+            return prompt("Quartz, Parchment, or Shears?").toLowerCase();
+        }
+
+        
+
+        function playGame(){
+            let playerScore = 0;
+            let computerScore = 0;
+            let roundCounter = 1;
+
+
+            
+            let playerSelection = getPlayerChoice();
+            let computerSelection = getComputerChoice();
+
+            function newSelection(){
+                playerSelection = getPlayerChoice();
+                computerSelection = getComputerChoice();
+            }
+
+            function determineWinner(){
+            return playerScore > computerScore ? "You won the game!": "You lost the game"
+            }
+
+            function playRound(playerChoice, computerChoice){
+                console.log("Round: " + roundCounter);
+
+                if (playerChoice === computerChoice){
+                    console.log(`Draw! ${playerChoice} cancels ${computerChoice}`)
+                }
+                else{
+                    let round = playerChoice + " " + computerChoice;
+                    switch(round){
+                        case "quartz parchment": 
+                            console.log("You lose! Parchment beats Quartz");
+                            computerScore++;
+                            break;
+                        case "quartz shears":   
+                            console.log("You Win! Quartz beats Shears");
+                            playerScore++;
+                            break;
+                        case "parchment quartz": 
+                            console.log("You Win! Parchment beats Quartz");
+                            playerScore++;
+                            break;
+                        case "parchment shears": 
+                            console.log("You lose! Shears beats Parchment");
+                            computerScore++;
+                            break;
+                        case "shears quartz": 
+                            console.log("You lose! Quartz beats Shears");
+                            computerScore++;
+                            break;
+                        case "shears parchment": 
+                            console.log("You Win! Shears beats Parchment");
+                            playerScore++;
+                            break;
+                    
+                    }
+                }
+
+                console.log("Player: "  + playerScore);
+                console.log("Computer: " + computerScore);
+                roundCounter++
+                if (roundCounter <= 5){
+                    newSelection();
+                }
+                
+            }
+
+            playRound(playerSelection, computerSelection);
+            playRound(playerSelection, computerSelection);
+            playRound(playerSelection, computerSelection);
+            playRound(playerSelection, computerSelection);
+            playRound(playerSelection, computerSelection);
+            console.log(determineWinner());
+        }
+
+        playGame();
+
+
+
+        
+
+
+        
+    </script>
+</body>
+</html>
