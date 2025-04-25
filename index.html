@@ -6,6 +6,14 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="playerSelections">
+        <button class="quartz">Quartz</button>
+        <button class="parchment">Parchment</button>
+        <button class="shears">Shears</button>
+    </div>
+    <p class="results"></p>
+    <p class="playerScore"></p>
+    <p class="computerScore"></p>
     <script>
         /* 
         write a function to get computer choice: function getComputerChoice()
@@ -30,92 +38,92 @@
             }
         }
 
-        function getPlayerChoice(){
-            return prompt("Quartz, Parchment, or Shears?").toLowerCase();
-        }
+        function getPlayerChoice(event){
+            return event.target.textContent.toLowerCase();
 
-        
+        }
 
         function playGame(){
             let playerScore = 0;
             let computerScore = 0;
-            let roundCounter = 1;
+            let computerChoice = getComputerChoice();
+            let playerChoice;
 
+            const playerSelection = document.querySelector(".playerSelections");
+            const results = document.querySelector(".results");
+            const playerScoreDisplay = document.querySelector(".playerScore");
+            const computerScoreDisplay = document.querySelector(
+                ".computerScore");
 
+            playerSelection.addEventListener("click", (event) =>{
+                playerChoice = getPlayerChoice(event);
+                playRound(playerChoice, computerChoice);
+                computerChoice = getComputerChoice();
+            });
             
-            let playerSelection = getPlayerChoice();
-            let computerSelection = getComputerChoice();
-
-            function newSelection(){
-                playerSelection = getPlayerChoice();
-                computerSelection = getComputerChoice();
-            }
-
-            function determineWinner(){
-            return playerScore > computerScore ? "You won the game!": "You lost the game"
-            }
+            console.log(`Current computer choice: ${computerChoice}`);
 
             function playRound(playerChoice, computerChoice){
-                console.log("Round: " + roundCounter);
 
                 if (playerChoice === computerChoice){
-                    console.log(`Draw! ${playerChoice} cancels ${computerChoice}`)
+                    results.textContent =`Draw! ${playerChoice} cancels ${computerChoice}`;
                 }
                 else{
                     let round = playerChoice + " " + computerChoice;
+                    console.log(`computer choice that is going to be evaluated: ${computerChoice}`);
                     switch(round){
                         case "quartz parchment": 
-                            console.log("You lose! Parchment beats Quartz");
+                            results.textContent = "You lose! Parchment beats Quartz";
                             computerScore++;
                             break;
                         case "quartz shears":   
-                            console.log("You Win! Quartz beats Shears");
+                            results.textContent = "You Win! Quartz beats Shears";
                             playerScore++;
                             break;
                         case "parchment quartz": 
-                            console.log("You Win! Parchment beats Quartz");
+                            results.textContent = "You Win! Parchment beats Quartz";
                             playerScore++;
                             break;
                         case "parchment shears": 
-                            console.log("You lose! Shears beats Parchment");
+                            results.textContent = "You lose! Shears beats Parchment";
                             computerScore++;
                             break;
                         case "shears quartz": 
-                            console.log("You lose! Quartz beats Shears");
+                            results.textContent = "You lose! Quartz beats Shears";
                             computerScore++;
                             break;
                         case "shears parchment": 
-                            console.log("You Win! Shears beats Parchment");
+                            results.textContent = "You Win! Shears beats Parchment";
                             playerScore++;
                             break;
                     
                     }
                 }
 
-                console.log("Player: "  + playerScore);
-                console.log("Computer: " + computerScore);
-                roundCounter++
-                if (roundCounter <= 5){
-                    newSelection();
+                playerScoreDisplay.textContent = "Player: "  + playerScore;
+                computerScoreDisplay.textContent = "Computer: " + computerScore;
+
+                if(playerScore === 5){
+                playerScoreDisplay.textContent = '';
+                computerScoreDisplay.textContent = '';
+                results.textContent = "You Win!";
+                playerScore = 0;
+                computerScore = 0;
+                } else if (computerScore === 5){
+                    playerScoreDisplay.textContent = '';
+                    computerScoreDisplay.textContent = '';
+                    results.textContent = "Your sorry ass lost to a computer";
+                    playerScore = 0;
+                    computerScore = 0;
                 }
                 
             }
 
-            playRound(playerSelection, computerSelection);
-            playRound(playerSelection, computerSelection);
-            playRound(playerSelection, computerSelection);
-            playRound(playerSelection, computerSelection);
-            playRound(playerSelection, computerSelection);
-            console.log(determineWinner());
+            
+
         }
 
         playGame();
-
-
-
-        
-
-
         
     </script>
 </body>
